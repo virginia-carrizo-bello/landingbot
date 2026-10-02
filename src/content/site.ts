@@ -14,7 +14,7 @@ export const site = {
   // ---------- Marca y SEO ----------
   brand: 'VIO',
   /** TODO: dominio final, sin barra al final. Se usa para sitemap, canonical y Open Graph. */
-  url: 'https://vio-bots.example.com',
+  url: 'https://landingbot.vercel.app', // TODO: cambiar si conectás un dominio propio
   lang: 'es-AR',
   seo: {
     title: 'VIO · Bots de WhatsApp y automatizaciones para tu negocio',
