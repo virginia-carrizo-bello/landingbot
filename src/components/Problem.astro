@@ -1,0 +1,26 @@
+---
+import { site } from '../content/site';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { problem } = site;
+---
+
+<section aria-labelledby="problema-title" class="section on-dark bg-ink text-white">
+  <div class="container-x">
+    <SectionHeading id="problema-title" eyebrow={problem.eyebrow} title={problem.title} dark />
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        problem.items.map((item, i) => (
+          <li class="rounded-[var(--radius-card)] border border-white/10 bg-white/5 p-6" data-reveal style={`--reveal-i: ${i}`}>
+            <span class="mb-5 grid size-12 place-items-center rounded-2xl bg-lime text-ink">
+              <Icon name={item.icon} />
+            </span>
+            <h3 class="text-xl font-bold">{item.title}</h3>
+            <p class="mt-2 text-white/75">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

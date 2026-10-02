@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../content/site';
+import { contactLink } from '../lib/whatsapp';
+---
+
+<Layout title={`${site.thanks.title} · ${site.brand}`} noindex>
+  <main id="contenido" class="grid min-h-dvh place-items-center px-4 py-16">
+    <div class="card max-w-lg p-8 text-center sm:p-12">
+      <span class="mx-auto grid size-16 place-items-center rounded-full bg-lime text-ink">
+        <Icon name="check" size={32} />
+      </span>
+      <h1 class="mt-6 text-3xl font-extrabold sm:text-4xl">{site.thanks.title}</h1>
+      <p class="mt-4 text-lg text-ink-soft">{site.thanks.text}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <a href="/" class="btn btn-primary">{site.thanks.back}</a>
+        <a href={contactLink} target="_blank" rel="noopener" class="btn btn-wa">
+          <Icon name="whatsapp" size={20} />
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

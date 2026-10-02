@@ -1,0 +1,43 @@
+---
+import { site } from '../content/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+const socials = site.social.filter((s) => s.href);
+---
+
+<footer class="on-dark border-t border-white/10 bg-ink pt-14 pb-28 text-white sm:pb-14">
+  <div class="container-x flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="font-display text-2xl font-extrabold">{site.brand}</p>
+      <p class="mt-2 max-w-sm text-white/70">{site.footer.tagline}</p>
+    </div>
+    {
+      socials.length > 0 && (
+        <ul class="flex gap-3" aria-label="Redes sociales">
+          {socials.map((s) => (
+            <li>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener"
+                class="grid size-11 place-items-center rounded-full bg-white/10 transition-colors hover:bg-lime hover:text-ink"
+              >
+                <Icon name={s.icon} size={20} />
+                <span class="sr-only">{s.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+  <div class="container-x mt-10 border-t border-white/10 pt-6 text-sm text-white/60">
+    <p>© <span data-year>{year}</span> {site.brand} · {site.contact.location}</p>
+  </div>
+</footer>
+
+<script>
+  // Año siempre actualizado aunque el sitio no se vuelva a buildear.
+  document.querySelectorAll('[data-year]').forEach((el) => (el.textContent = String(new Date().getFullYear())));
+</script>

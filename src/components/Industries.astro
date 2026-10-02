@@ -1,0 +1,29 @@
+---
+import { site } from '../content/site';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { industries } = site;
+---
+
+<section id="rubros" aria-labelledby="rubros-title" class="section">
+  <div class="container-x">
+    <SectionHeading id="rubros-title" eyebrow={industries.eyebrow} title={industries.title} subtitle={industries.subtitle} />
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        industries.items.map((item, i) => (
+          <li class="card relative p-7" data-reveal style={`--reveal-i: ${i % 3}`}>
+            <span class="absolute top-0 left-7 h-1 w-12 rounded-b-full bg-violet" aria-hidden="true" />
+            <div class="flex items-center gap-3">
+              <span class="grid size-11 place-items-center rounded-xl bg-ink text-lime">
+                <Icon name={item.icon} size={22} />
+              </span>
+              <h3 class="text-xl font-bold">{item.title}</h3>
+            </div>
+            <p class="mt-4 text-ink-soft">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

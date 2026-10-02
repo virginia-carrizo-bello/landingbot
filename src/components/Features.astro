@@ -1,0 +1,28 @@
+---
+import { site } from '../content/site';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { features } = site;
+---
+
+<section aria-labelledby="funciones-title" class="section bg-violet-soft/60">
+  <div class="container-x">
+    <SectionHeading id="funciones-title" eyebrow={features.eyebrow} title={features.title} />
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        features.items.map((item, i) => (
+          <li class="card flex gap-4 p-5 lg:flex-col" data-reveal style={`--reveal-i: ${i % 4}`}>
+            <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-violet-soft text-violet">
+              <Icon name={item.icon} size={22} />
+            </span>
+            <div>
+              <h3 class="text-lg font-bold">{item.title}</h3>
+              <p class="mt-1 text-ink-soft">{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

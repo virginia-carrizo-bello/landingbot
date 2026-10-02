@@ -1,0 +1,36 @@
+---
+import { site } from '../content/site';
+import SectionHeading from './SectionHeading.astro';
+
+const { process } = site;
+---
+
+<section id="proceso" aria-labelledby="proceso-title" class="section border-y border-line bg-surface">
+  <div class="container-x">
+    <SectionHeading id="proceso-title" eyebrow={process.eyebrow} title={process.title} />
+    <div class="relative">
+    <span class="absolute top-7 right-[12%] left-[12%] hidden h-0.5 bg-line lg:block" aria-hidden="true"></span>
+    <ol class="relative grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {
+        process.steps.map((step, i) => (
+          <li class="relative flex gap-5 lg:flex-col lg:items-center lg:text-center" data-reveal style={`--reveal-i: ${i}`}>
+            <span
+              class="relative grid size-14 shrink-0 place-items-center rounded-full border-4 border-surface bg-violet font-display text-xl font-extrabold text-white"
+              aria-hidden="true"
+            >
+              {i + 1}
+            </span>
+            <div>
+              <h3 class="text-xl font-bold">
+                <span class="sr-only">Paso {i + 1}: </span>
+                {step.title}
+              </h3>
+              <p class="mt-2 text-ink-soft">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    </div>
+  </div>
+</section>

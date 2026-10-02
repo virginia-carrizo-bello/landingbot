@@ -1,0 +1,72 @@
+---
+import { site } from '../content/site';
+import { waLink } from '../lib/whatsapp';
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+
+const { pricing } = site;
+---
+
+<section id="planes" aria-labelledby="planes-title" class="section">
+  <div class="container-x">
+    <SectionHeading id="planes-title" eyebrow={pricing.eyebrow} title={pricing.title} subtitle={pricing.subtitle} />
+    <ul class="grid items-stretch gap-6 lg:grid-cols-3">
+      {
+        pricing.plans.map((plan, i) => (
+          <li
+            class:list={[
+              'relative flex flex-col rounded-[var(--radius-card)] p-7 sm:p-8',
+              plan.highlighted ? 'on-dark bg-ink text-white shadow-2xl shadow-violet/25 lg:-my-4 lg:py-12' : 'card',
+            ]}
+            data-reveal
+            style={`--reveal-i: ${i}`}
+          >
+            {plan.highlighted && plan.badge && (
+              <p class="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-lime px-4 py-1 text-sm font-bold whitespace-nowrap text-ink">
+                {plan.badge}
+              </p>
+            )}
+            <h3 class="text-2xl font-bold">{plan.name}</h3>
+            <p class:list={['mt-2', plan.highlighted ? 'text-white/75' : 'text-ink-soft']}>{plan.description}</p>
+
+            <dl class:list={['mt-6 space-y-3 border-y py-5', plan.highlighted ? 'border-white/15' : 'border-line']}>
+              <div>
+                <dt class:list={['text-sm', plan.highlighted ? 'text-white/70' : 'text-ink-soft']}>Implementación</dt>
+                <dd class="font-display text-3xl font-extrabold">{plan.setup}</dd>
+              </div>
+              <div>
+                <dt class:list={['text-sm', plan.highlighted ? 'text-white/70' : 'text-ink-soft']}>Abono mensual</dt>
+                <dd class:list={['font-display text-xl font-bold', plan.highlighted ? 'text-lime' : 'text-violet']}>{plan.monthly}</dd>
+              </div>
+            </dl>
+
+            <ul class="mt-6 flex-1 space-y-3">
+              {plan.features.map((f) => (
+                <li class="flex gap-3">
+                  <span class:list={['mt-0.5 grid size-5 shrink-0 place-items-center rounded-full', plan.highlighted ? 'bg-lime text-ink' : 'bg-violet-soft text-violet']}>
+                    <Icon name="check" size={14} />
+                  </span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={waLink(site.contact.whatsapp, pricing.ctaMessage.replace('{plan}', plan.name))}
+              target="_blank"
+              rel="noopener"
+              class:list={['btn mt-8 w-full', plan.highlighted ? 'btn-lime' : 'btn-primary']}
+            >
+              {plan.cta}
+              <span class="sr-only"> {plan.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mx-auto mt-12 max-w-3xl rounded-2xl border border-dashed border-ink/20 p-5 text-center text-sm text-ink-soft" data-reveal>
+      <strong class="text-ink">Importante:</strong>
+      {pricing.disclaimer}
+    </p>
+  </div>
+</section>

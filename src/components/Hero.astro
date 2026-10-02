@@ -1,0 +1,73 @@
+---
+import { site } from '../content/site';
+import { demoLink, highlight } from '../lib/whatsapp';
+import Icon from './Icon.astro';
+
+const { hero, brand } = site;
+---
+
+<section aria-labelledby="hero-title" class="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+  <div class="dot-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" aria-hidden="true"></div>
+  <div class="absolute -top-24 -right-24 -z-10 size-96 rounded-full bg-violet/15 blur-3xl" aria-hidden="true"></div>
+
+  <div class="container-x grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+    <div data-reveal>
+      <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-ink-soft">
+        <span class="size-2 rounded-full bg-wa" aria-hidden="true"></span>
+        {hero.eyebrow}
+      </p>
+      <h1 id="hero-title" class="text-4xl leading-[1.05] font-extrabold sm:text-6xl lg:text-7xl" set:html={highlight(hero.title)} />
+      <p class="mt-6 max-w-xl text-lg text-ink-soft sm:text-xl">{hero.subtitle}</p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <a href={demoLink} target="_blank" rel="noopener" class="btn btn-wa text-lg">
+          <Icon name="whatsapp" size={22} />
+          {hero.primaryCta}
+        </a>
+        <a href={hero.secondaryHref} class="btn btn-ghost text-lg">
+          {hero.secondaryCta}
+          <Icon name="arrow" size={20} />
+        </a>
+      </div>
+      <p class="mt-4 text-sm text-ink-soft">{hero.note}</p>
+    </div>
+
+    <!-- Teléfono con conversación ilustrativa (decorativo, el texto está en site.ts) -->
+    <div class="relative mx-auto w-full max-w-sm" data-reveal style="--reveal-i: 2">
+      <div class="absolute -inset-6 -z-10 rotate-6 rounded-[2.5rem] bg-lime" aria-hidden="true"></div>
+      <figure class="overflow-hidden rounded-[2rem] border-8 border-ink bg-[#efe9df] shadow-2xl shadow-violet/20">
+        <figcaption class="flex items-center gap-3 bg-ink px-4 py-3 text-white">
+          <span class="grid size-9 place-items-center rounded-full bg-violet text-lime" aria-hidden="true">
+            <Icon name="chat" size={18} />
+          </span>
+          <span class="leading-tight">
+            <span class="block font-semibold">Bot de tu negocio</span>
+            <span class="block text-xs text-lime">en línea · responde al instante</span>
+          </span>
+          <span class="sr-only">Ejemplo de conversación con un bot de {brand}</span>
+        </figcaption>
+        <ol class="flex flex-col gap-2.5 p-4 text-[0.95rem]">
+          {
+            hero.chat.map((m, i) => (
+              <li
+                class:list={[
+                  'max-w-[85%] rounded-2xl px-3.5 py-2 shadow-sm',
+                  m.from === 'user' ? 'self-end rounded-br-sm bg-[#d9fdd3]' : 'self-start rounded-bl-sm bg-white',
+                ]}
+                data-reveal
+                style={`--reveal-i: ${i + 3}`}
+              >
+                <span class="sr-only">{m.from === 'user' ? 'Cliente:' : 'Bot:'} </span>
+                {m.text}
+              </li>
+            ))
+          }
+          <li class="typing flex gap-1 self-start rounded-2xl rounded-bl-sm bg-white px-4 py-3" aria-hidden="true">
+            <span class="size-2 rounded-full bg-ink-soft"></span>
+            <span class="size-2 rounded-full bg-ink-soft"></span>
+            <span class="size-2 rounded-full bg-ink-soft"></span>
+          </li>
+        </ol>
+      </figure>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+---
+import QRCode from 'qrcode';
+import { site } from '../content/site';
+import { demoLink, highlight } from '../lib/whatsapp';
+import Icon from './Icon.astro';
+
+const { demo } = site;
+
+// El QR se genera en build como SVG: no depende de ningún servicio externo.
+const qrSvg = await QRCode.toString(demoLink, {
+  type: 'svg',
+  margin: 1,
+  errorCorrectionLevel: 'M',
+  color: { dark: '#16121f', light: '#ffffff' },
+});
+---
+
+<section id="demo" aria-labelledby="demo-title" class="section">
+  <div class="container-x">
+    <div class="on-dark relative overflow-hidden rounded-[2rem] bg-violet px-6 py-14 text-white sm:px-12 lg:px-16" data-reveal>
+      <div class="absolute -right-20 -bottom-28 size-80 rounded-full bg-lime/25 blur-3xl" aria-hidden="true"></div>
+      <div class="relative grid items-center gap-12 lg:grid-cols-[1fr_auto]">
+        <div>
+          <p class="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-sm font-semibold text-lime">
+            <span class="size-2 animate-pulse rounded-full bg-lime" aria-hidden="true"></span>
+            {demo.eyebrow}
+          </p>
+          <h2 id="demo-title" class="text-3xl font-extrabold sm:text-5xl" set:html={highlight(demo.title)} />
+          <p class="mt-4 max-w-xl text-lg text-white/85">{demo.text}</p>
+          <a href={demoLink} target="_blank" rel="noopener" class="btn btn-lime mt-8 text-lg">
+            <Icon name="whatsapp" size={22} />
+            {demo.cta}
+          </a>
+        </div>
+        <figure class="mx-auto w-full max-w-[15rem] rounded-3xl bg-white p-4 text-center text-ink shadow-2xl lg:mx-0">
+          <div class="aspect-square w-full [&>svg]:h-full [&>svg]:w-full" role="img" aria-label="Código QR para abrir el bot demo en WhatsApp" set:html={qrSvg} />
+          <figcaption class="mt-3 text-sm text-ink-soft">{demo.qrHint}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

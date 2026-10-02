@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site } from '../content/site';
+import Icon from './Icon.astro';
+
+const { about, contact } = site;
+
+// Busca la foto configurada en site.ts dentro de src/assets/ (se optimiza en build).
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+const photo = about.photo ? images[`../assets/${about.photo}`]?.default : undefined;
+if (about.photo && !photo) {
+  throw new Error(`No encontré la foto "${about.photo}" en src/assets/`);
+}
+---
+
+<section id="sobre-mi" aria-labelledby="about-title" class="section">
+  <div class="container-x grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+    <div class="relative mx-auto w-full max-w-xs" data-reveal>
+      <div class="absolute inset-0 translate-x-4 translate-y-4 rounded-[2rem] bg-lime" aria-hidden="true"></div>
+      {
+        photo ? (
+          <Image
+            src={photo}
+            alt={about.photoAlt}
+            widths={[320, 640]}
+            sizes="(min-width: 768px) 320px, 80vw"
+            class="relative aspect-[4/5] w-full rounded-[2rem] border-4 border-ink object-cover"
+          />
+        ) : (
+          // TODO: placeholder de foto. Configurá about.photo en site.ts para reemplazarlo.
+          <div
+            class="relative grid aspect-[4/5] w-full place-items-center rounded-[2rem] border-4 border-dashed border-ink/30 bg-surface text-center text-ink-soft"
+            role="img"
+            aria-label="Espacio reservado para la foto"
+          >
+            <div>
+              <Icon name="user" size={56} class="mx-auto text-ink/30" />
+              <p class="mt-2 text-sm font-semibold">TODO: tu foto</p>
+            </div>
+          </div>
+        )
+      }
+    </div>
+    <div data-reveal style="--reveal-i: 1">
+      <p class="mb-3 inline-block rounded-full bg-violet-soft px-3 py-1 text-sm font-semibold text-violet">{about.eyebrow}</p>
+      <h2 id="about-title" class="text-3xl font-bold sm:text-5xl">{about.title}</h2>
+      {about.paragraphs.map((p) => <p class="mt-5 text-lg text-ink-soft">{p}</p>)}
+      <p class="mt-6 inline-flex items-center gap-2 font-medium">
+        <Icon name="pin" size={20} class="text-violet" />
+        {contact.location}
+      </p>
+    </div>
+  </div>
+</section>

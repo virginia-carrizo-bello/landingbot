@@ -1,0 +1,88 @@
+---
+/**
+ * Íconos SVG inline (se resuelven en build, cero JS en el navegador).
+ * Íconos generales: lucide-static. Marcas: simple-icons.
+ */
+import * as lucide from 'lucide-static';
+import { siWhatsapp, siTelegram, siInstagram, siGithub } from 'simple-icons';
+
+interface Props {
+  name: string;
+  class?: string;
+  size?: number;
+}
+
+const { name, class: className = '', size = 24 } = Astro.props;
+
+const lucideMap: Record<string, string> = {
+  inbox: lucide.Inbox,
+  repeat: lucide.Repeat,
+  moon: lucide.Moon,
+  clipboard: lucide.ClipboardList,
+  sparkles: lucide.Sparkles,
+  plug: lucide.Plug,
+  chat: lucide.MessageCircle,
+  cart: lucide.ShoppingCart,
+  calendar: lucide.CalendarCheck,
+  bell: lucide.Bell,
+  filter: lucide.Filter,
+  handoff: lucide.Headset,
+  card: lucide.CreditCard,
+  table: lucide.Sheet,
+  health: lucide.HeartPulse,
+  food: lucide.UtensilsCrossed,
+  home: lucide.House,
+  bag: lucide.ShoppingBag,
+  book: lucide.GraduationCap,
+  briefcase: lucide.Briefcase,
+  mail: lucide.Mail,
+  check: lucide.Check,
+  arrow: lucide.ArrowRight,
+  menu: lucide.Menu,
+  close: lucide.X,
+  plus: lucide.Plus,
+  pin: lucide.MapPin,
+  user: lucide.User,
+};
+
+const brandMap: Record<string, string> = {
+  whatsapp: siWhatsapp.path,
+  telegram: siTelegram.path,
+  instagram: siInstagram.path,
+  github: siGithub.path,
+};
+
+const custom: Record<string, string> = {
+  linkedin:
+    '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
+};
+
+let inner = '';
+let filled = false;
+if (brandMap[name]) {
+  inner = `<path d="${brandMap[name]}"/>`;
+  filled = true;
+} else if (custom[name]) {
+  inner = custom[name];
+} else if (lucideMap[name]) {
+  inner = lucideMap[name].replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+} else {
+  throw new Error(`Icon "${name}" no existe en Icon.astro`);
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill={filled ? 'currentColor' : 'none'}
+  stroke={filled ? 'none' : 'currentColor'}
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+  focusable="false"
+  set:html={inner}
+/>
